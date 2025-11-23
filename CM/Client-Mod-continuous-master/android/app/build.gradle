@@ -1,0 +1,80 @@
+import java.time.LocalDateTime
+import java.time.Month
+import java.time.temporal.ChronoUnit
+
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'su.xash.clientmod'
+    ndkVersion "28.2.13676358"
+    compileSdk 36
+
+    dependencies {
+        implementation 'com.google.android.material:material:1.13.0'
+
+    }
+
+
+    defaultConfig {
+        applicationId 'su.xash.clientmod'
+        versionName '1.5'
+        versionCode getBuildNum()
+        minSdkVersion 21
+        targetSdk 36
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+
+    externalNativeBuild {
+        cmake {
+            version '3.22.1'
+            path file('../../CMakeLists.txt')
+        }
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    packaging {
+        jniLibs {
+            keepDebugSymbols.add("**/*.so")
+            useLegacyPackaging true
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        register("ci") {
+            initWith(getByName("release"))
+
+            externalNativeBuild.cmake {
+                arguments "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            }
+        }
+    }
+}
+
+static def getBuildNum() {
+    LocalDateTime now = LocalDateTime.now()
+    LocalDateTime releaseDate = LocalDateTime.of(2015, Month.OCTOBER, 29, 0, 0, 0)
+    int qBuildNum = releaseDate.until(now, ChronoUnit.DAYS)
+    int minuteOfDay = now.getHour() * 60 + now.getMinute()
+    return qBuildNum * 10000 + minuteOfDay
+}

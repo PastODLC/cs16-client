@@ -1,0 +1,13 @@
+[submodule "vgui_support"]
+	path = vgui_support
+	url = https://github.com/FWGS/vgui_support
+[submodule "external/discord-rpc"]
+	path = external/discord-rpc
+	url = https://github.com/discord/discord-rpc
+[submodule "external/hlsdk-portable"]
+	path = external/hlsdk-portable
+	url = https://github.com/Elinsrc/hlsdk-portable
+	branch = bhop_fix
+[submodule "external/imgui"]
+	path = external/imgui
+	url = https://github.com/ocornut/imgui

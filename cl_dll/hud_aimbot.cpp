@@ -2942,7 +2942,7 @@ void CHudAimbot::ApplyAntiAimYawOnly( struct usercmd_s *cmd )
 		break;
 	}
 	
-	// Нормализуем YAW
+	// Нормализуем YAww
 	while ( cmd->viewangles[YAW] > 180.0f )
 		cmd->viewangles[YAW] -= 360.0f;
 	while ( cmd->viewangles[YAW] < -180.0f )
